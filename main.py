@@ -19,6 +19,11 @@ def main():
 
     browser.get("https://bing.com/")
 
+    for i in range(0, 34):
+        browser.get("https://www.bing.com/search?q="+str(i))
+
+    print("Done")
+
 
 
 
