@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as WebUi
 from selenium.webdriver.support import expected_conditions as EC
 
+import sys
+
 browserOptions = Options()
 
 browser: webdriver.Edge
@@ -20,8 +22,10 @@ def main():
 
 def initOptions():
     browserOptions.add_argument("start-maximized")
-    # TODO change to your path
-    browserOptions.add_argument("--user-data-dir=??????")
+
+    userPath = "--user-data-dir=" + str(sys.argv[1])
+    browserOptions.add_argument(userPath)
+
     browserOptions.add_argument('--profile-directory=Default')
 
 
@@ -34,8 +38,12 @@ def initBrowser():
 
 def dailySearches():
     for i in range(0, 34):
-        browser.get("https://www.bing.com/search?q="+str(i))
+        browser.get("https://www.bing.com/search?q=" + str(i))
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) <= 1:
+        print('Microsoft user path not found')
+        print('You can see it in edge://version/ as "Profile path"')
+    else:
+        main()
