@@ -9,18 +9,24 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import pyautogui
 
-browserOptions = Options()
-browserOptions.add_argument("start-maximized")
-# TODO change to your path
-browserOptions.add_argument("--user-data-dir= ??????")
-browserOptions.add_argument('--profile-directory=Default')
+def main():
+    browserOptions = Options()
+    browserOptions.add_argument("start-maximized")
+    # TODO change to your path
+    browserOptions.add_argument("--user-data-dir=??????")
+    browserOptions.add_argument('--profile-directory=Default')
 
-browser = webdriver.Edge(service=Service(
-    "./driver/msedgedriver.exe"), options=browserOptions)
+    browser = webdriver.Edge(service=Service(
+        "./driver/msedgedriver.exe"), options=browserOptions)
 
-browser.get("https://bing.com/")
+    browser.get("https://bing.com/")
 
-cookiesAcceptButton = WebUi(browser, 20).until(
-    EC.element_to_be_clickable((By.ID, "bnp_btn_accept")))
+    cookiesAcceptButton = WebUi(browser, 20).until(
+        EC.element_to_be_clickable((By.ID, "bnp_btn_accept")))
 
-cookiesAcceptButton.click()
+    cookiesAcceptButton.click()
+
+
+
+if __name__ == "__main__":
+    main()
