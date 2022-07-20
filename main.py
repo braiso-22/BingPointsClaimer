@@ -6,8 +6,6 @@ from selenium.webdriver.support.ui import WebDriverWait as WebUi
 from selenium.webdriver.support import expected_conditions as EC
 
 
-import time
-import pyautogui
 
 def main():
     browserOptions = Options()
@@ -21,10 +19,7 @@ def main():
 
     browser.get("https://bing.com/")
 
-    cookiesAcceptButton = WebUi(browser, 20).until(
-        EC.element_to_be_clickable((By.ID, "bnp_btn_accept")))
 
-    cookiesAcceptButton.click()
 
 
 
