@@ -77,6 +77,7 @@ def dailyQuizPromos():
     page1Quizes = getPagePromos()[1]
 
     print("Quizes 1")
+    executeDualAnswerQuiz(page1Quizes[0])
 
     pass
 
@@ -97,15 +98,14 @@ def executeRegularQuiz(quiz):
 
 
 def executeDualAnswerQuiz(quiz):
-    clickPromos(list(quiz))
+    quizList = list()
+    quizList.append(quiz)
+    clickPromos(quizList)
+
+    randomNum = random.randint(0, 1)
 
     uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
-
-    random = random.uniform(0, 1)
-
-    uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.ID, ("btoption" + random)))).click()
+        EC.element_to_be_clickable((By.ID, ("btoption" + str(randomNum))))).click()
 
     goToBing()
 
