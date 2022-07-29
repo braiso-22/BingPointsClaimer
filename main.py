@@ -123,7 +123,7 @@ def callPromos():
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
-        print('Microsoft user path not found')
+        print('Microsoft user path not found as parameter')
         print('You can see it in edge://version/ as "Profile path"')
     else:
         main()
