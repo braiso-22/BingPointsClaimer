@@ -14,7 +14,6 @@ browser: webdriver.Edge
 
 
 def main():
-    initOptions()
     initBrowser()
     dailySearches()
     dailyPromos()
@@ -22,20 +21,20 @@ def main():
     print("Done")
 
 
-def initOptions():
-    # browserOptions.add_argument("start-maximized")
-
-    userPath = "--user-data-dir=" + str(sys.argv[1])
-    browserOptions.add_argument(userPath)
-
-    browserOptions.add_argument('--profile-directory=Default')
-
-
 def initBrowser():
+    initOptions()
     global browser
     browser = webdriver.Edge(service=Service(
         "./driver/msedgedriver.exe"), options=browserOptions)
     goToBing()
+
+
+def initOptions():
+    # browserOptions.add_argument("start-maximized")
+    userPath = "--user-data-dir=" + str(sys.argv[1])
+    browserOptions.add_argument(userPath)
+
+    browserOptions.add_argument('--profile-directory=Default')
 
 
 def goToBing():
@@ -47,37 +46,27 @@ def dailySearches():
     while i < 39:
         try:
             browser.get("https://www.bing.com/search?q=" + str(i))
-            i+=1
+            i += 1
         except:
             continue
 
 
 def dailyPromos():
     goToInnerContainer()
-    allPromos = getPagePromos()
+    page1Searches = getPagePromos()[0]
 
     print("Searches 1")
-    try:
-        for search in allPromos[0]:
-            uiSearcher(browser, 40).until(
-                EC.element_to_be_clickable(search)).click()
-    except:
-        print("No search promos avaliables")
+    clickPromos(page1Searches)
 
     goToInnerContainer()
 
     uiSearcher(browser, 40).until(
         EC.element_to_be_clickable((By.CLASS_NAME, "chevronUp"))).click()
 
-    allPromos = getPagePromos()
+    page2Searches = getPagePromos()[0]
 
     print("Searches 2")
-    try:
-        for search in allPromos[0]:
-            uiSearcher(browser, 40).until(
-                EC.element_to_be_clickable(search)).click()
-    except:
-        print("No search promos avaliables")
+    clickPromos(page2Searches)
 
 
 def getPagePromos():
@@ -106,6 +95,14 @@ def getPagePromos():
 
     return arrayOfPromos
 
+
+def clickPromos(searches):
+    try:
+        for search in searches:
+            uiSearcher(browser, 40).until(
+                EC.element_to_be_clickable(search)).click()
+    except:
+        print("No search promos avaliables")
 
 def goToInnerContainer():
     callPromos()
