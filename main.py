@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as uiSearcher
 from selenium.webdriver.support import expected_conditions as EC
 
+import random
 import sys
 import time
 
@@ -72,7 +73,41 @@ def dailySearchPromos():
 
 
 def dailyQuizPromos():
+    goToInnerContainer()
+    page1Quizes = getPagePromos()[1]
+
+    print("Quizes 1")
+
     pass
+
+
+def executeRegularQuiz(quiz):
+    clickPromos(list(quiz))
+
+    uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
+
+    # TODO While id="quizCompleteContainer" is Not present
+
+    # TODO Find isCorrectOption=true and add to list the ids
+
+    # TODO Click by id from the list and remove it from list
+
+    # TODO When list is empty fill it again
+
+
+def executeDualAnswerQuiz(quiz):
+    clickPromos(list(quiz))
+
+    uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
+
+    random = random.uniform(0, 1)
+
+    uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, ("btoption" + random)))).click()
+
+    goToBing()
 
 
 def goToInnerContainer(dropdown=False):
@@ -137,7 +172,7 @@ if __name__ == "__main__":
     if len(sys.argv) <= 1:
         print('Microsoft user path not found as parameter')
         print('You can see it in edge://version/ as "Profile path"')
-    elif "\\YOUR-USER\\" in str(sys.argv[1]) :
+    elif "\\YOUR-USER\\" in str(sys.argv[1]):
         print("You should replace \"YOUR-USER\" in the params with your username")
     else:
         main()
