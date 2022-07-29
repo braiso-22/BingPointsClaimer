@@ -137,5 +137,7 @@ if __name__ == "__main__":
     if len(sys.argv) <= 1:
         print('Microsoft user path not found as parameter')
         print('You can see it in edge://version/ as "Profile path"')
+    elif "\\YOUR-USER\\" in str(sys.argv[1]) :
+        print("You should replace \"YOUR-USER\" in the params with your username")
     else:
         main()
