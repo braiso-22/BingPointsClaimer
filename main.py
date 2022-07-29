@@ -52,21 +52,49 @@ def dailySearches():
 
 
 def dailyPromos():
+    dailySearchPromos()
+    dailyQuizPromos()
+
+
+def dailySearchPromos():
     goToInnerContainer()
     page1Searches = getPagePromos()[0]
 
     print("Searches 1")
     clickPromos(page1Searches)
 
-    goToInnerContainer()
-
-    uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, "chevronUp"))).click()
+    goToInnerContainer(dropdown=True)
 
     page2Searches = getPagePromos()[0]
 
     print("Searches 2")
     clickPromos(page2Searches)
+
+
+def dailyQuizPromos():
+    pass
+
+
+def goToInnerContainer(dropdown=False):
+    if dropdown:
+        clickDropdown()
+
+    callPromos()
+    innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
+    browser.switch_to.frame(innerHtmlContainer)
+
+
+def clickDropdown():
+    uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "chevronUp"))).click()
+
+
+def callPromos():
+    goToBing()
+    rewardsButton = uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, "id_rc")))
+    time.sleep(1)
+    rewardsButton.click()
 
 
 def getPagePromos():
@@ -103,19 +131,6 @@ def clickPromos(searches):
                 EC.element_to_be_clickable(search)).click()
     except:
         print("No search promos avaliables")
-
-def goToInnerContainer():
-    callPromos()
-    innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
-    browser.switch_to.frame(innerHtmlContainer)
-
-
-def callPromos():
-    goToBing()
-    rewardsButton = uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.ID, "id_rc")))
-    time.sleep(1)
-    rewardsButton.click()
 
 
 if __name__ == "__main__":
