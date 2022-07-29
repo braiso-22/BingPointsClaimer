@@ -17,7 +17,7 @@ def main():
     initOptions()
     initBrowser()
     dailySearches()
-    dailyQuizes()
+    dailyPromos()
 
     print("Done")
 
@@ -47,7 +47,7 @@ def dailySearches():
         browser.get("https://www.bing.com/search?q=" + str(i))
 
 
-def dailyQuizes():
+def dailyPromos():
     goToBing()
     allQuizes = getAllPromos()
     for quiz in allQuizes:
