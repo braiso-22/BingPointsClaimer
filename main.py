@@ -39,7 +39,13 @@ def initOptions():
 
 
 def goToBing():
-    browser.get("https://bing.com/")
+    inBing = False
+    while not inBing:
+        try:
+            browser.get("https://bing.com/")
+            inBing = True
+        except:
+            pass
 
 
 def dailySearches():
