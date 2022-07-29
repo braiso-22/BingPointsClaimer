@@ -43,43 +43,78 @@ def goToBing():
 
 
 def dailySearches():
-    for i in range(0, 39):
-        browser.get("https://www.bing.com/search?q=" + str(i))
+    i = 0
+    while i < 39:
+        try:
+            browser.get("https://www.bing.com/search?q=" + str(i))
+            i+=1
+        except:
+            continue
 
 
 def dailyPromos():
-    goToBing()
-    allQuizes = getAllPromos()
-    for quiz in allQuizes:
-        print(quiz)
+    goToInnerContainer()
+    allPromos = getPagePromos()
 
+    print("Searches 1")
+    try:
+        for search in allPromos[0]:
+            uiSearcher(browser, 40).until(
+                EC.element_to_be_clickable(search)).click()
+    except:
+        print("No search promos avaliables")
 
-
-
-
-def getAllPromos():
-    callPromos()
-    arrayOfQuizes = list()
-    innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
-
-    browser.switch_to.frame(innerHtmlContainer)
-
-    firstList = browser.find_elements(By.XPATH, "//div[@class='promo_cont']/a")
-    for link in firstList:
-        arrayOfQuizes.append(link.get_attribute("href"))
+    goToInnerContainer()
 
     uiSearcher(browser, 40).until(
         EC.element_to_be_clickable((By.CLASS_NAME, "chevronUp"))).click()
 
-    secondList = browser.find_elements(
-        By.XPATH, "//div[@class='promo_cont']/a")
-    for link in secondList:
-        arrayOfQuizes.append(link.get_attribute("href"))
+    allPromos = getPagePromos()
 
-    return arrayOfQuizes
+    print("Searches 2")
+    try:
+        for search in allPromos[0]:
+            uiSearcher(browser, 40).until(
+                EC.element_to_be_clickable(search)).click()
+    except:
+        print("No search promos avaliables")
+
+
+def getPagePromos():
+    arrayOfPromos = list()
+    arrayOfQuizes = list()
+    arrayOfSearches = list()
+
+    firstList = browser.find_elements(By.XPATH, "//div[@class='promo_cont']/a")
+    for element in firstList:
+        try:
+            correctCircle = element.find_element(
+                By.CLASS_NAME, "correctCircle")
+        except:
+            correctCircle = None
+
+        if correctCircle:
+            continue
+
+        if "Test".lower() in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
+            arrayOfQuizes.append(element)
+        else:
+            arrayOfSearches.append(element)
+
+    arrayOfPromos.append(arrayOfSearches)
+    arrayOfPromos.append(arrayOfQuizes)
+
+    return arrayOfPromos
+
+
+def goToInnerContainer():
+    callPromos()
+    innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
+    browser.switch_to.frame(innerHtmlContainer)
 
 
 def callPromos():
+    goToBing()
     rewardsButton = uiSearcher(browser, 40).until(
         EC.element_to_be_clickable((By.ID, "id_rc")))
     time.sleep(1)
