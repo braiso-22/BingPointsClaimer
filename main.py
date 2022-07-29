@@ -43,7 +43,7 @@ def goToBing():
 
 
 def dailySearches():
-    for i in range(0, 34):
+    for i in range(0, 39):
         browser.get("https://www.bing.com/search?q=" + str(i))
 
 
