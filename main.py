@@ -49,20 +49,16 @@ def dailySearches():
 
 def dailyQuizes():
     goToBing()
-    callQuizes()
-    allQuizes = getAllQuizes()
+    allQuizes = getAllPromos()
     for quiz in allQuizes:
         print(quiz)
 
 
-def callQuizes():
-    rewardsButton = uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.ID, "id_rc")))
-    time.sleep(1)
-    rewardsButton.click()
 
 
-def getAllQuizes():
+
+def getAllPromos():
+    callPromos()
     arrayOfQuizes = list()
     innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
 
@@ -81,6 +77,13 @@ def getAllQuizes():
         arrayOfQuizes.append(link.get_attribute("href"))
 
     return arrayOfQuizes
+
+
+def callPromos():
+    rewardsButton = uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, "id_rc")))
+    time.sleep(1)
+    rewardsButton.click()
 
 
 if __name__ == "__main__":
