@@ -117,12 +117,13 @@ def executeDualAnswerQuiz(quiz):
 
 
 def goToInnerContainer(dropdown=False):
-    if dropdown:
-        clickDropdown()
-
     callPromos()
+
     innerHtmlContainer = browser.find_element(By.ID, value="bepfm")
     browser.switch_to.frame(innerHtmlContainer)
+
+    if dropdown:
+        clickDropdown()
 
 
 def clickDropdown():
