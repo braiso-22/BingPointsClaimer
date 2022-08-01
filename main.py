@@ -67,6 +67,11 @@ def dailySearchPromos():
     goToInnerContainer()
     page1Searches = getPagePromos()[0]
 
+    '''
+        TODO cambiar clickPromos a click promo con un
+        for externo para buscar realmente todas las busquedas
+        mientras siga habiendolas en esta página del innerHtml
+    '''
     print("Searches 1")
     clickPromos(page1Searches)
 
