@@ -15,10 +15,17 @@ browser: webdriver.Edge
 
 
 def main():
+
     initBrowser()
+
+    initialPoints = getCurrentPoints()
+    print(initialPoints)
+
     dailySearches()
     dailyPromos()
 
+    earnedPoints = getCurrentPoints() - initialPoints
+    print(f"Earned {earnedPoints}")
     print("Done")
 
 
@@ -46,6 +53,12 @@ def goToBing():
             inBing = True
         except:
             pass
+
+
+def getCurrentPoints():
+    rewardsButton = uiSearcher(browser, 40).until(
+        EC.element_to_be_clickable((By.ID, "id_rc")))
+    return rewardsButton.get_attribute('innerHTML')
 
 
 def dailySearches():
