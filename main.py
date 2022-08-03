@@ -77,23 +77,25 @@ def dailyPromos():
 
 
 def dailySearchPromos():
-    goToInnerContainer()
-    page1Searches = getPagePromos()[0]
-
-    '''
-        TODO cambiar clickPromos a click promo con un
-        for externo para buscar realmente todas las busquedas
-        mientras siga habiendolas en esta página del innerHtml
-    '''
     print("Searches 1")
-    clickPromos(page1Searches)
-
-    goToInnerContainer(dropdown=True)
-
-    page2Searches = getPagePromos()[0]
+    while True:
+        page1Searches = getPagePromos()[0]
+        if len(page1Searches) > 0:
+            clickPromo(page1Searches[0])
+            goToInnerContainer()
+        else:
+            break
+    pass
 
     print("Searches 2")
-    clickPromos(page2Searches)
+    while True:
+        page2Searches = getPagePromos()[0]
+        if len(page2Searches) > 0:
+            clickPromo(page2Searches[0])
+            goToInnerContainer(dropdown=True)
+        else:
+            break
+    pass
 
 
 def dailyQuizPromos():
@@ -107,7 +109,7 @@ def dailyQuizPromos():
 
 
 def executeRegularQuiz(quiz):
-    clickPromos(list(quiz))
+    clickPromo(quiz)
 
     uiSearcher(browser, 40).until(
         EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
@@ -122,9 +124,7 @@ def executeRegularQuiz(quiz):
 
 
 def executeDualAnswerQuiz(quiz):
-    quizList = list()
-    quizList.append(quiz)
-    clickPromos(quizList)
+    clickPromo(quiz)
 
     randomNum = random.randint(0, 1)
 
@@ -184,13 +184,12 @@ def getPagePromos():
     return arrayOfPromos
 
 
-def clickPromos(searches):
+def clickPromo(search):
     try:
-        for search in searches:
-            uiSearcher(browser, 40).until(
-                EC.element_to_be_clickable(search)).click()
+        uiSearcher(browser, 40).until(
+            EC.element_to_be_clickable(search)).click()
     except:
-        print("No search promos avaliables")
+        print("No search avaliable")
 
 
 if __name__ == "__main__":
