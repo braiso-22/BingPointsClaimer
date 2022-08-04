@@ -79,20 +79,20 @@ def dailyPromos():
 def dailySearchPromos():
     print("Searches 1")
     while True:
-        page1Searches = getPagePromos()[0]
+        goToInnerContainer()
+        page1Searches = getPromosByType()
         if len(page1Searches) > 0:
             clickPromo(page1Searches[0])
-            goToInnerContainer()
         else:
             break
     pass
 
     print("Searches 2")
     while True:
-        page2Searches = getPagePromos()[0]
+        goToInnerContainer(dropdown=True)
+        page2Searches = getPromosByType()
         if len(page2Searches) > 0:
             clickPromo(page2Searches[0])
-            goToInnerContainer(dropdown=True)
         else:
             break
     pass
@@ -100,11 +100,27 @@ def dailySearchPromos():
 
 def dailyQuizPromos():
     goToInnerContainer()
-    page1Quizes = getPagePromos()[1]
+    dailyTest = getPromosByType("test diario")[0]
 
-    print("Quizes 1")
-    executeDualAnswerQuiz(page1Quizes[0])
+    print("Quiz 1")
+    executeDualAnswerQuiz(dailyTest)
 
+    print("Quiz 2")
+    while True:
+        goToInnerContainer()
+        page1Searches = getPromosByType("Test")
+        if len(page1Searches) > 0:
+            executeRegularQuiz(page1Searches[0])
+        else:
+            break
+    pass
+    while True:
+        goToInnerContainer(dropdown=True)
+        page1Searches = getPromosByType("Test")
+        if len(page1Searches) > 0:
+            executeRegularQuiz(page1Searches[0])
+        else:
+            break
     pass
 
 
@@ -182,6 +198,30 @@ def getPagePromos():
     arrayOfPromos.append(arrayOfQuizes)
 
     return arrayOfPromos
+
+
+def getPromosByType(type: str = "default"):
+    arrayOfSearches = list()
+    firstList = browser.find_elements(By.XPATH, "//div[@class='promo_cont']/a")
+    for element in firstList:
+        try:
+            correctCircle = element.find_element(
+                By.CLASS_NAME, "correctCircle")
+        except:
+            correctCircle = None
+
+        if correctCircle:
+            continue
+
+        if(type == "default"):
+            type = "Test"
+            if type.lower() not in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
+                arrayOfSearches.append(element)
+            type = "default"
+        else:
+            if type.lower() in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
+                arrayOfSearches.append(element)
+    return arrayOfSearches
 
 
 def clickPromo(search):
