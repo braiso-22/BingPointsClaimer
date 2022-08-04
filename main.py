@@ -100,11 +100,13 @@ def dailySearchPromos():
 
 def dailyQuizPromos():
     goToInnerContainer()
-    dailyTest = getPromosByType("test diario")[0]
+    try:
+        dailyTest = getPromosByType("test diario")[0]
 
-    print("Quiz 1")
-    executeDualAnswerQuiz(dailyTest)
-
+        print("Quiz 1")
+        executeDualAnswerQuiz(dailyTest)
+    except:
+        print("Can't run dailyTest")
     print("Quiz 2")
     while True:
         goToInnerContainer()
