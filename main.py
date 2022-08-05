@@ -235,11 +235,11 @@ def getPromosByType(type: str = "default"):
 
         if(type == "default"):
             type = "Test"
-            if type.lower() not in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
+            if type.lower() not in element.accessible_name.lower():
                 arrayOfSearches.append(element)
             type = "default"
         else:
-            if type.lower() in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
+            if type.lower() in element.accessible_name.lower():
                 arrayOfSearches.append(element)
     return arrayOfSearches
 
