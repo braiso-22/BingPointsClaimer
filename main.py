@@ -193,33 +193,6 @@ def callPromos():
     rewardsButton.click()
 
 
-def getPagePromos():
-    arrayOfPromos = list()
-    arrayOfQuizes = list()
-    arrayOfSearches = list()
-
-    firstList = browser.find_elements(By.XPATH, "//div[@class='promo_cont']/a")
-    for element in firstList:
-        try:
-            correctCircle = element.find_element(
-                By.CLASS_NAME, "correctCircle")
-        except:
-            correctCircle = None
-
-        if correctCircle:
-            continue
-
-        if "Test".lower() in element.find_element(By.XPATH, ".//p[@class='b_subtitle promo-title']").text.lower():
-            arrayOfQuizes.append(element)
-        else:
-            arrayOfSearches.append(element)
-
-    arrayOfPromos.append(arrayOfSearches)
-    arrayOfPromos.append(arrayOfQuizes)
-
-    return arrayOfPromos
-
-
 def getPromosByType(type: str = "default"):
     arrayOfSearches = list()
     firstList = browser.find_elements(By.XPATH, "//div[@class='promo_cont']/a")
