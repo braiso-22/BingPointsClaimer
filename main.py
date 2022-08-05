@@ -128,17 +128,35 @@ def dailyQuizPromos():
 
 def executeRegularQuiz(quiz):
     clickPromo(quiz)
+    initButtonClickable = False
+    while not initButtonClickable:
+        try:
+            uiSearcher(browser, 40).until(
+                EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
+            initButtonClickable = True
+        except:
+            pass
 
-    uiSearcher(browser, 40).until(
-        EC.element_to_be_clickable((By.ID, "rqStartQuiz"))).click()
+    while True:
+        finishElement = browser.find_elements(By.ID, "quizCompleteContainer")
 
-    # TODO While id="quizCompleteContainer" is Not present
+        if len(finishElement) > 0:
+            break
 
-    # TODO Find isCorrectOption=true and add to list the ids
-
-    # TODO Click by id from the list and remove it from list
-
-    # TODO When list is empty fill it again
+        correctOptions = browser.find_elements(
+            By.XPATH, '//div[@iscorrectoption="True"]')
+        correctOptionsIds = list()
+        for option in correctOptions:
+            correctOptionsIds.append(option.get_attribute("id"))
+        i = 0
+        while i < len(correctOptionsIds):
+            try:
+                uiSearcher(browser, 20).until(
+                    EC.element_to_be_clickable((By.ID, correctOptionsIds[i]))).click()
+                i += 1
+            except:
+                continue
+        pass
 
 
 def executeDualAnswerQuiz(quiz):
