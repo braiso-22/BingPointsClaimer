@@ -24,7 +24,7 @@ def main():
     dailySearches()
     dailyPromos()
 
-    earnedPoints = getCurrentPoints() - initialPoints
+    earnedPoints = int(getCurrentPoints()) - int(initialPoints)
     print(f"Earned {earnedPoints}")
     print("Done")
 
@@ -56,6 +56,7 @@ def goToBing():
 
 
 def getCurrentPoints():
+    goToBing()
     rewardsButton = uiSearcher(browser, 40).until(
         EC.element_to_be_clickable((By.ID, "id_rc")))
     return rewardsButton.get_attribute('innerHTML')
@@ -156,7 +157,8 @@ def executeRegularQuiz(quiz):
                 i += 1
             except:
                 continue
-        pass
+        correctOptions = list()
+    pass
 
 
 def executeDualAnswerQuiz(quiz):
