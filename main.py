@@ -149,12 +149,14 @@ def executeRegularQuiz(quiz):
         correctOptionsIds = list()
         for option in correctOptions:
             correctOptionsIds.append(option.get_attribute("id"))
+        correctOptionsIds = list(filter(len, correctOptionsIds))
         i = 0
         while i < len(correctOptionsIds):
             try:
-                uiSearcher(browser, 20).until(
+                uiSearcher(browser, 40).until(
                     EC.element_to_be_clickable((By.ID, correctOptionsIds[i]))).click()
                 i += 1
+                time.sleep(1)
             except:
                 continue
         correctOptions = list()
